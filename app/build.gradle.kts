@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.smartwatchhapticsystem"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.smartwatchhapticsystem"
@@ -13,8 +13,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        // ✅ Add this line below
-        buildConfigField("String", "NODE_RED_HOST", "\"http://10.0.0.6:1880/\"")
+
     }
 
     buildTypes {

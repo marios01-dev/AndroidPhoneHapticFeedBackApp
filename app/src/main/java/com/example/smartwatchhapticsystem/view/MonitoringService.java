@@ -60,20 +60,18 @@ public class MonitoringService extends Service {
     private void startForegroundWithNotification() {
 
         // Step 1: If running on Android 8.0 (API 26) or above, create a notification channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create a NotificationChannel with a unique ID, a user-visible name, and importance level
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,                                // Channel ID (used in Builder)
-                    "Monitoring Service Channel",               // Name shown in system settings
-                    NotificationManager.IMPORTANCE_LOW          // Importance level (no sound, still visible)
-            );
+        // Create a NotificationChannel with a unique ID, a user-visible name, and importance level
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,                                // Channel ID (used in Builder)
+                "Monitoring Service Channel",               // Name shown in system settings
+                NotificationManager.IMPORTANCE_LOW          // Importance level (no sound, still visible)
+        );
 
-            // Get the system service responsible for managing notifications
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            if (manager != null) {
-                // Register the channel with the system (only needed once)
-                manager.createNotificationChannel(channel);
-            }
+        // Get the system service responsible for managing notifications
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        if (manager != null) {
+            // Register the channel with the system (only needed once)
+            manager.createNotificationChannel(channel);
         }
 
         // Step 2: Build the actual notification that will be shown to the user

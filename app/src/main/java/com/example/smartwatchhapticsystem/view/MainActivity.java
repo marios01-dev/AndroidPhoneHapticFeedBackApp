@@ -84,11 +84,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Permissions", "✅ All permissions granted or handled. Starting MonitoringService...");
 
         Intent serviceIntent = new Intent(this, MonitoringService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent);  // Required for Android 8+
-        } else {
-            startService(serviceIntent);
-        }
+        startForegroundService(serviceIntent);  // Required for Android 8+
     }
 
     /**

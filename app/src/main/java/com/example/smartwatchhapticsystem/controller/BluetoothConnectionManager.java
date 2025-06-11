@@ -230,7 +230,7 @@ public class BluetoothConnectionManager {
 
         // Recover UserID and WatchID if unknown
         if ("UnknownWatch".equals(dataMap.get("SmartWatchID")) || "UnknownUser".equals(dataMap.get("UserID"))) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
                 BluetoothDevice remoteDevice = bluetoothSocket.getRemoteDevice();
                 @SuppressLint("MissingPermission") String alias = remoteDevice.getAlias();
 
@@ -245,8 +245,8 @@ public class BluetoothConnectionManager {
                     Log.w(TAG, "❌ Could not recover Watch/User IDs.");
                     unknownDetected = true;
                 }
-            } else {
-                Log.w(TAG, "❌ Cannot retrieve alias below Android 11.");
+            } catch (SecurityException e) {
+                Log.e(TAG, "❌ SecurityException while retrieving alias", e);
                 unknownDetected = true;
             }
         }
