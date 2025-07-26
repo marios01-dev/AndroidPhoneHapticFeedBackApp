@@ -41,13 +41,14 @@ public class MonitoringService extends Service {
     private BluetoothConnectionManager bluetoothManager;
     private static final String TAG = "MainActivity";
     private String monitoringType = "";
+    private String identifier = "Android-50"; // Example : Android-42
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("MonitoringService", "🚀 Service created");
 
-        bluetoothManager = new BluetoothConnectionManager(this);
+        bluetoothManager = new BluetoothConnectionManager(this, identifier);
         networkController = new NetworkController(this, bluetoothManager);
         locationController = new LocationController(this);
 
@@ -214,7 +215,8 @@ public class MonitoringService extends Service {
         String smartWatchId = "UnknownWatch";
 
         // Step 1: Try to extract Android ID from the system device name (e.g., "Android-1234")
-        String systemName = Settings.Global.getString(this.getContentResolver(), "device_name");
+//        String systemName = Settings.Global.getString(this.getContentResolver(), "device_name");
+        String systemName = identifier;
         if (systemName != null && systemName.matches("^Android-\\d+$")) {
             androidId = systemName.split("-")[1]; // Extract only the number
             Log.d(TAG, "✅ Android ID from system name: " + androidId);

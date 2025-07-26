@@ -25,7 +25,7 @@ import java.util.Set;
  */
 public class BluetoothConnectionManager {
     private static final String TAG = "BluetoothManager";
-
+    private String identifier = "";
     private BluetoothSocket bluetoothSocket;
 
     private static final UUID APP_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Standard SPP UUID
@@ -35,8 +35,9 @@ public class BluetoothConnectionManager {
     private final Context context;
     private OnHeartRateReceived listener;
 
-    public BluetoothConnectionManager(Context context) {
+    public BluetoothConnectionManager(Context context, String identifier) {
         this.context = context;
+        this.identifier = identifier;
     }
 
     /**
@@ -213,12 +214,15 @@ public class BluetoothConnectionManager {
                 dataMap.put(kv[0].trim(), kv[1].trim());
             }
         }
-
+        String fallback = identifier;
+        if(!dataMap.get("AndroidID").equals("UnknownAndroid")){
+            dataMap.put("AndroidID", fallback.split("-")[1]);
+        }
         boolean unknownDetected = false;
 
         // Recover AndroidID if unknown
         if ("UnknownAndroid".equals(dataMap.get("AndroidID"))) {
-            String fallback = Settings.Global.getString(context.getContentResolver(), "device_name");
+//            String fallback = Settings.Global.getString(context.getContentResolver(), "device_name");
             if (fallback != null && fallback.matches("^Android-\\d+$")) {
                 dataMap.put("AndroidID", fallback.split("-")[1]);
                 Log.d(TAG, "✅ Recovered AndroidID: " + fallback);
